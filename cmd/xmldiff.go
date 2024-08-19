@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+
+	"xmldiff/internal/process"
 )
 
 //TIP To run your code, right-click the code and select <b>Run</b>. Alternatively, click
@@ -15,12 +17,13 @@ func main() {
 	flag.Parse()
 	if flag.NArg() < 2 {
 		flag.Usage()
+		fmt.Println("xmldiff <file1> <file2>")
 		os.Exit(1)
 	}
 	file1 = flag.Arg(0)
 	file2 = flag.Arg(1)
-	fmt.Println("input:", file1, file2)
-}
 
-//TIP See GoLand help at <a href="https://www.jetbrains.com/help/go/">jetbrains.com/help/go/</a>.
-// Also, you can try interactive lessons for GoLand by selecting 'Help | Learn IDE Features' from the main menu.
+	var result = process.Compare_XML_Files(file1, file2)
+
+	os.Exit(result)
+}
