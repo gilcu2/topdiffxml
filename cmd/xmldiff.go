@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"xmldiff/internal/process"
+	"xmldiff/internal/io"
 )
 
 //TIP To run your code, right-click the code and select <b>Run</b>. Alternatively, click
@@ -23,7 +23,7 @@ func main() {
 	file1 = flag.Arg(0)
 	file2 = flag.Arg(1)
 
-	var result = process.Compare_XML_Files(file1, file2)
+	var result = io.Compare_XML_Files(file1, file2)
 
 	os.Exit(result)
 }
