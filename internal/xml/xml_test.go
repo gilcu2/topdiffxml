@@ -5,6 +5,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func assertNode(node *Node, name string, data string,
+	attributesName []string, attributesValue []string,
+	childrens int, t *testing.T) {
+	assert.Equal(t, node.XMLName.Local,name)
+	assert.Equal(t, node.Data,data)
+
+	assert.Equal(t, len(node.Attributes),len(attributesName))
+	for i := 0; i < len(attributesName); i++ {
+		assert.Equal(t, node.Attributes[i].Name.Local, attributesName[i])
+		assert.Equal(t, node.Attributes[i].Value, attributesValue[i])
+	}
+
+	assert.Equal(t, len(node.Nodes),childrens)
+}
+
 func TestParse(t *testing.T) {
 	// Given xml
 	var xml_str = `<?xml version="1.0" encoding="UTF-8"?>
@@ -29,9 +44,34 @@ func TestParse(t *testing.T) {
 	assert.Nil(t, err)
 
 	var topNode=parsed
-	assert.Equal(t, topNode.XMLName.Local,"ConnectedApp")
-	assert.Equal(t, topNode.Attributes[0].Name.Local,"xmlns")
-	assert.Equal(t, topNode.Attributes[0].Value,"http://soap.sforce.com/2006/04/metadata")
+	assertNode(topNode,"ConnectedApp","",
+		[]string{"xmlns"},[]string{"http://soap.sforce.com/2006/04/metadata"},
+		3,t,
+	)
+
+	var child0=topNode.Nodes[0]
+	assertNode(child0,"contactEmail","foo@example.org",
+		[]string{},[]string{},
+		0,t,
+	)
+
+	var child1=topNode.Nodes[1]
+	assertNode(child1,"label","WooCommerce",
+		[]string{},[]string{},
+		0,t,
+	)
+
+	var child2=topNode.Nodes[2]
+	assertNode(child2,"oauthConfig","",
+		[]string{},[]string{},
+		6,t,
+	)
+
+	var child2_0=child2.Nodes[0]
+	assertNode(child2_0,"callbackUrl","https://login.salesforce.com/services/oauth2/callback",
+		[]string{},[]string{},
+		0,t,
+	)
 }
 
 func TestCompare(t *testing.T) {

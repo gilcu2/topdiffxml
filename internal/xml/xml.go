@@ -26,7 +26,10 @@ func (e *Node) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 			e.Data = strings.TrimSpace(string(t))
 		case xml.StartElement:
 			e := &Node{}
-			e.UnmarshalXML(d, t)
+			var err=e.UnmarshalXML(d, t)
+			if err != nil {
+				return err
+			}
 			nodes = append(nodes, e)
 		case xml.EndElement:
 			done = true
