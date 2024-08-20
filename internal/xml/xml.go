@@ -2,7 +2,9 @@ package xml
 
 import (
 	"encoding/xml"
+	"strings"
 )
+
 
 type Node struct {
 	XMLName    xml.Name
@@ -11,10 +13,35 @@ type Node struct {
 	Nodes      []*Node
 }
 
-func Parse(str string) (*Node, error) {
+func (e *Node) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var nodes []*Node
-	var err = xml.Unmarshal([]byte(str), &nodes)
-	return nodes[0], err
+	var done bool
+	for !done {
+		t, err := d.Token()
+		if err != nil {
+			return err
+		}
+		switch t := t.(type) {
+		case xml.CharData:
+			e.Data = strings.TrimSpace(string(t))
+		case xml.StartElement:
+			e := &Node{}
+			e.UnmarshalXML(d, t)
+			nodes = append(nodes, e)
+		case xml.EndElement:
+			done = true
+		}
+	}
+	e.XMLName = start.Name
+	e.Attributes = start.Attr
+	e.Nodes = nodes
+	return nil
+}
+
+func Parse(str string) (*Node, error) {
+	n := &Node{}
+	var err=xml.Unmarshal([]byte(str), &n)
+	return n, err
 }
 
 func Compare(str1 string, str2 string) (string, error) {
