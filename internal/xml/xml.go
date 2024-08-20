@@ -4,9 +4,20 @@ import (
 	"encoding/xml"
 )
 
-func Compare(str1 string, str2 string) (string, error) {
+type Node struct {
+	XMLName    xml.Name
+	Attributes []xml.Attr
+	Data       string
+	Nodes      []*Node
+}
 
-	var xml1 = xml.Unmarshal()
+func Parse(str string) (*Node, error) {
+	var nodes []*Node
+	var err = xml.Unmarshal([]byte(str), &nodes)
+	return nodes[0], err
+}
+
+func Compare(str1 string, str2 string) (string, error) {
 
 	return "", nil
 }
