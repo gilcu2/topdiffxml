@@ -1,6 +1,9 @@
 package xml
 
-import "testing"
+import (
+	"testing"
+	"github.com/stretchr/testify/assert"
+)
 
 func TestParse(t *testing.T) {
 	// Given xml
@@ -23,13 +26,12 @@ func TestParse(t *testing.T) {
 	var parsed,err=Parse(xml_str)
 
 	// Then it is expected
-	if err != nil {
-		t.Error(err)
-	}
+	assert.Nil(t, err)
 
-	if len(parsed.Attributes) == 0 {
-		t.Error("xml parse fail")
-	}
+	var topNode=parsed
+	assert.Equal(t, topNode.XMLName.Local,"ConnectedApp")
+	assert.Equal(t, topNode.Attributes[0].Name.Local,"xmlns")
+	assert.Equal(t, topNode.Attributes[0].Value,"http://soap.sforce.com/2006/04/metadata")
 }
 
 func TestCompare(t *testing.T) {
