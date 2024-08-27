@@ -47,7 +47,3 @@ func Parse(str string) (*Node, error) {
 	return n, err
 }
 
-func Compare(str1 string, str2 string) (string, error) {
-
-	return "", nil
-}
