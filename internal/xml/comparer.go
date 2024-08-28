@@ -35,13 +35,24 @@ func getStringDifferences(str1 string, str2 string, current_path string) []*Diff
 	var differences = []*Difference{}
 	var textDifferences = textdiff.Strings(str1, str2)
 	for i := 0; i < len(textDifferences); i++ {
-		var textDiffs = textDifferences[i]
+		var textDiff = textDifferences[i]
+		var part1=""
+		var part2=""
+		if textDiff.New != "" {  // Added
+			part1=""
+			part2=textDiff.New
+		} else if textDiff.End < len(str1) && textDiff.End < len(str2){ // Changed
+			part1= str1[textDiff.Start:textDiff.End]
+			part2= str2[textDiff.Start:textDiff.End]
+		} else { //removed
+			part1=str2[textDiff.Start:textDiff.End]
+		}
 		var difference = &Difference{
 			path:      current_path,
-			preamble:  str1[:textDiffs.Start],
-			postamble: str1[textDiffs.End:],
-			part1:     str1[textDiffs.Start:textDiffs.End],
-			part2:     str2[textDiffs.Start:textDiffs.End],
+			preamble:  str1[:textDiff.Start],
+			postamble: str1[textDiff.End:],
+			part1:     part1,
+			part2:     part2,
 		}
 		differences = append(differences, difference)
 	}

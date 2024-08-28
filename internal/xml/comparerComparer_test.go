@@ -95,6 +95,38 @@ func TestCompare_WhenEqual(t *testing.T) {
 	assert.Equal(t, len(diffs),0)
 }
 
+func TestCompare_WhenDifferentRootNodeName(t *testing.T) {
+	// Given 2 xml
+	var xml1_str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+	Test 1 different
+</ConnectedApp>`
+	var xml1,err1=Parse(xml1_str)
+	assert.Equal(t, err1,nil)
+
+	var xml2_str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp1 xmlns="http://soap.sforce.com/2006/04/metadata">
+	Test 1 different
+</ConnectedApp>`
+	var xml2,err2=Parse(xml2_str)
+	assert.Equal(t, err2,nil)
+
+	// When compare
+	var diffs, err = Compare(xml1, xml2)
+
+	// Then must be different
+	assert.Equal(t, err,nil)
+
+	assert.Equal(t, len(diffs),1)
+
+	var diff=diffs[0]
+	assert.Equal(t, diff.path,"/")
+	assert.Equal(t, diff.preamble,"ConnectedApp")
+	assert.Equal(t, diff.postamble,"")
+	assert.Equal(t, diff.part1,"1")
+	assert.Equal(t, diff.part2,"2")
+}
+
 func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
 	// Given 2 xml
 	var xml1_str = `<?xml version="1.0" encoding="UTF-8"?>
