@@ -3,6 +3,7 @@ package xml
 import (
 	"xmldiff/internal/util"
 	"testing"
+	"github.com/akedrou/textdiff"
 )
 
 func TestCompareString_WhenEqual(t *testing.T) {
@@ -14,7 +15,9 @@ func TestCompareString_WhenEqual(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 0)
+	util.Assert(t, differences.path, "/")
+	util.Assert(t, differences.source, str1)
+	util.Assert(t, len(differences.changes), 0)
 }
 
 func TestCompareString_WhenAddedAtEnd(t *testing.T) {
@@ -26,13 +29,10 @@ func TestCompareString_WhenAddedAtEnd(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"str1")
-	util.Assert(t,diff0.postamble,"")
-	util.Assert(t,diff0.part1,"")
-	util.Assert(t,diff0.part2,"more")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{4,4,"more"})
 }
 
 func TestCompareString_WhenAddedAtBegin(t *testing.T) {
@@ -44,13 +44,10 @@ func TestCompareString_WhenAddedAtBegin(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"")
-	util.Assert(t,diff0.postamble,"str1")
-	util.Assert(t,diff0.part1,"")
-	util.Assert(t,diff0.part2,"more")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{0,0,"more"})
 }
 
 func TestCompareString_WhenAddedAtMiddle(t *testing.T) {
@@ -62,13 +59,10 @@ func TestCompareString_WhenAddedAtMiddle(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"str1")
-	util.Assert(t,diff0.postamble,"str2")
-	util.Assert(t,diff0.part1,"")
-	util.Assert(t,diff0.part2,"more")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{4,4,"more"})
 }
 
 func TestCompareString_WhenRemovedAtEnd(t *testing.T) {
@@ -80,13 +74,10 @@ func TestCompareString_WhenRemovedAtEnd(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"str1")
-	util.Assert(t,diff0.postamble,"")
-	util.Assert(t,diff0.part1,"more")
-	util.Assert(t,diff0.part2,"")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{4,8,""})
 }
 
 func TestCompareString_WhenRemovedAtBegin(t *testing.T) {
@@ -98,13 +89,10 @@ func TestCompareString_WhenRemovedAtBegin(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"")
-	util.Assert(t,diff0.postamble,"str1")
-	util.Assert(t,diff0.part1,"more")
-	util.Assert(t,diff0.part2,"")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{0,4,""})
 }
 
 func TestCompareString_WhenChangedAtBegin(t *testing.T) {
@@ -116,13 +104,10 @@ func TestCompareString_WhenChangedAtBegin(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"")
-	util.Assert(t,diff0.postamble,"str1")
-	util.Assert(t,diff0.part1,"more")
-	util.Assert(t,diff0.part2,"papi")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{0,4,"papi"})
 }
 
 func TestCompareString_WhenChangedAtMiddle(t *testing.T) {
@@ -134,13 +119,10 @@ func TestCompareString_WhenChangedAtMiddle(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"str1")
-	util.Assert(t,diff0.postamble,"str2")
-	util.Assert(t,diff0.part1,"more")
-	util.Assert(t,diff0.part2,"papi")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,differences.path,"/")
+	util.Assert(t,change0,textdiff.Edit{4,8,"papi"})
 }
 
 func TestCompareString_WhenChangedAtEnd(t *testing.T) {
@@ -152,11 +134,7 @@ func TestCompareString_WhenChangedAtEnd(t *testing.T) {
 	var differences = getStringDifferences(str1, str2, "/")
 
 	// Then must be expected
-	util.Assert(t, len(differences), 1)
-	var diff0 = differences[0]
-	util.Assert(t,diff0.path,"/")
-	util.Assert(t,diff0.preamble,"str1")
-	util.Assert(t,diff0.postamble,"")
-	util.Assert(t,diff0.part1,"more")
-	util.Assert(t,diff0.part2,"papi")
+	util.Assert(t, len(differences.changes), 1)
+	var change0 = differences.changes[0]
+	util.Assert(t,change0,textdiff.Edit{4,8,"papi"})
 }
