@@ -178,7 +178,7 @@ func TestCompare_WhenDifferentAttributeRootNode(t *testing.T) {
 	// Then must be expected
 	util.Assert(t, len(diffs), 1)
 	var diff = diffs[0].(StringDifferences)
-	util.Assert(t, diff.path, "/")
+	util.Assert(t, diff.path, "/ConnectedApp.")
 	var change0 = diff.changes[0]
 	util.Assert(t, change0, textdiff.Edit{5, 6, "2"})
 }
