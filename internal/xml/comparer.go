@@ -69,7 +69,7 @@ func compare(xml1 *Node, xml2 *Node, path string) ([]XMLDifference, error) {
 		var difference = OtherDifference{
 			path:    currentPath + ".attr.len",
 			oldPart: util.ToString(len(xml1.Attributes)),
-			newPart: strconv.Itoa(len(xml2.Attributes)),
+			newPart: util.ToString(len(xml2.Attributes)),
 		}
 		differences = append(differences, difference)
 	}
@@ -80,14 +80,14 @@ func compare(xml1 *Node, xml2 *Node, path string) ([]XMLDifference, error) {
 		var name1 = xml1.Attributes[i].Name.Local
 		var name2 = xml2.Attributes[i].Name.Local
 		if name1 != name2 {
-			var attrPath=currentPath+".["+strconv.Itoa(i)+"]"+".name"
+			var attrPath=currentPath+".attr["+strconv.Itoa(i)+"]"+".name"
 			var strDifferences = getStringDifferences(name1, name2, attrPath)
 			differences = append(differences, strDifferences)
 		} else {
 			var value1 = xml1.Attributes[i].Value
 			var value2 = xml2.Attributes[i].Value
 			if value1 != value2 {
-				var attrPath = currentPath + "." + name1
+				var attrPath = currentPath + ".attr." + name1
 				var strDifferences = getStringDifferences(value1, value2, attrPath)
 				differences = append(differences, strDifferences)
 			}

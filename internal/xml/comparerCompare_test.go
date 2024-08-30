@@ -155,7 +155,7 @@ func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
 	util.Assert(t, change0, textdiff.Edit{5, 6, "2"})
 }
 
-func TestCompare_WhenDifferentAttributeRootNode(t *testing.T) {
+func TestCompare_WhenDifferentAttributeValueRootNode(t *testing.T) {
 	// Given 2 xml
 	var xml1Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
@@ -178,7 +178,63 @@ func TestCompare_WhenDifferentAttributeRootNode(t *testing.T) {
 	// Then must be expected
 	util.Assert(t, len(diffs), 1)
 	var diff = diffs[0].(StringDifferences)
-	util.Assert(t, diff.path, "/ConnectedApp.")
+	util.Assert(t, diff.path, "/ConnectedApp.attr.xmlns")
 	var change0 = diff.changes[0]
-	util.Assert(t, change0, textdiff.Edit{5, 6, "2"})
+	util.Assert(t, change0, textdiff.Edit{26, 27, "7"})
+}
+
+func TestCompare_WhenDifferentAttributeNameRootNode(t *testing.T) {
+	// Given 2 xml
+	var xml1Str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+	Test 1 different
+</ConnectedApp>`
+	var xml1, err1 = Parse(xml1Str)
+	util.Assert(t, err1, nil)
+
+	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmln="http://soap.sforce.com/2006/04/metadata">
+	Test 1 different
+</ConnectedApp>`
+	var xml2, err2 = Parse(xml2Str)
+	util.Assert(t, err2, nil)
+
+	// When compare
+	var diffs, err = Compare(xml1, xml2)
+	util.Assert(t, err, nil)
+
+	// Then must be expected
+	util.Assert(t, len(diffs), 1)
+	var diff = diffs[0].(StringDifferences)
+	util.Assert(t, diff.path, "/ConnectedApp.attr[0].name")
+	var change0 = diff.changes[0]
+	util.Assert(t, change0, textdiff.Edit{4, 5, ""})
+}
+
+func TestCompare_WhenDifferentAttributeNumberRootNode(t *testing.T) {
+	// Given 2 xml
+	var xml1Str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+	Test 1 different
+</ConnectedApp>`
+	var xml1, err1 = Parse(xml1Str)
+	util.Assert(t, err1, nil)
+
+	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata" qq="pp">
+	Test 1 different
+</ConnectedApp>`
+	var xml2, err2 = Parse(xml2Str)
+	util.Assert(t, err2, nil)
+
+	// When compare
+	var diffs, err = Compare(xml1, xml2)
+	util.Assert(t, err, nil)
+
+	// Then must be expected
+	util.Assert(t, len(diffs), 1)
+	var diff = diffs[0].(OtherDifference)
+	util.Assert(t, diff.path, "/ConnectedApp.attr.len")
+	util.Assert(t, diff.oldPart, "1")
+	util.Assert(t, diff.newPart, "2")
 }
