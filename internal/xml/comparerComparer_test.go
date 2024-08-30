@@ -119,7 +119,7 @@ func TestCompare_WhenDifferentRootNodeName(t *testing.T) {
 
 	// Then must be expected
 	util.Assert(t, len(diffs), 1)
-	var diff0 = diffs[0]
+	var diff0 = diffs[0].(StringDifferences)
 	util.Assert(t, diff0.path, "/")
 	util.Assert(t, len(diff0.changes), 1)
 	var change0 = diff0.changes[0]
@@ -148,7 +148,7 @@ func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
 
 	// Then must be expected
 	util.Assert(t, len(diffs), 1)
-	var diff0 = diffs[0]
+	var diff0 = diffs[0].(StringDifferences)
 	util.Assert(t, diff0.path, "/ConnectedApp")
 	util.Assert(t, len(diff0.changes), 1)
 	var change0 = diff0.changes[0]
@@ -177,7 +177,7 @@ func TestCompare_WhenDifferentAttributeRootNode(t *testing.T) {
 
 	// Then must be expected
 	util.Assert(t, len(diffs), 1)
-	var diff = diffs[0]
+	var diff = diffs[0].(StringDifferences)
 	util.Assert(t, diff.path, "/")
 	var change0 = diff.changes[0]
 	util.Assert(t, change0, textdiff.Edit{5, 6, "2"})

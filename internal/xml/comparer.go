@@ -26,9 +26,9 @@ func (sd StringDifferences) getOutput() string {
 		}
 		var leftContext = sd.source[contextBegin:change.Start]
 		var rightContext = sd.source[change.End:contextEnd]
-		var old = sd.source[change.Start:change.End]
-		var new = change.New
-		s += leftContext + " --(" + old + ") ++(" + new + ") " + rightContext + "\n"
+		var oldPart = sd.source[change.Start:change.End]
+		var newPart = change.New
+		s += leftContext + " --(" + oldPart + ") ++(" + newPart + ") " + rightContext + "\n"
 	}
 	return s
 }
@@ -42,12 +42,12 @@ func (sd OtherDifference) getOutput() string {
 	return sd.path + "\n" + sd.info + "\n"
 }
 
-func Compare(xml1 *Node, xml2 *Node) ([]*XMLDifference, error) {
+func Compare(xml1 *Node, xml2 *Node) ([]XMLDifference, error) {
 	return compare(xml1, xml2, "/")
 }
 
-func compare(xml1 *Node, xml2 *Node, path string) ([]*XMLDifference, error) {
-	var differences []*XMLDifference
+func compare(xml1 *Node, xml2 *Node, path string) ([]XMLDifference, error) {
+	var differences []XMLDifference
 
 	if xml1.XMLName.Local != xml2.XMLName.Local {
 		differences = append(differences, getStringDifferences(xml1.XMLName.Local, xml2.XMLName.Local, path))
@@ -68,7 +68,7 @@ func compare(xml1 *Node, xml2 *Node, path string) ([]*XMLDifference, error) {
 	return differences, nil
 }
 
-func getStringDifferences(str1 string, str2 string, currentPath string) *XMLDifference {
+func getStringDifferences(str1 string, str2 string, currentPath string) StringDifferences {
 	var changes = textdiff.Strings(str1, str2)
 	var stringDiferences = StringDifferences{
 		path:    currentPath,
@@ -76,5 +76,5 @@ func getStringDifferences(str1 string, str2 string, currentPath string) *XMLDiff
 		changes: changes,
 	}
 
-	return &stringDiferences
+	return stringDiferences
 }
