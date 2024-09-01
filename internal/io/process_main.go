@@ -56,7 +56,7 @@ func CompareXmlStrings(str1 string, str2 string) ([]string, error) {
 	var printedDiffs []string
 
 	for _, diff := range differences {
-		printedDiffs = append(printedDiffs, diff.GetOutput())
+		printedDiffs = append(printedDiffs, diff.GetOutput()...)
 	}
 
 	return printedDiffs, nil

@@ -6,46 +6,6 @@ import (
 	"xmldiff/internal/util"
 )
 
-type XMLDifference interface {
-	GetOutput() string
-}
-
-type StringDifferences struct {
-	path    string
-	source  string
-	changes []textdiff.Edit
-}
-
-func (sd StringDifferences) GetOutput() string {
-	var s = sd.path + "\n"
-	var contextBegin = 0
-	var contextEnd = 0
-	for i := range len(sd.changes) {
-		var change = sd.changes[i]
-		contextBegin = max(contextEnd, change.Start-10)
-		if i < len(sd.changes)-1 {
-			contextEnd = min(change.End+10, (change.End+sd.changes[i+1].Start)/2)
-		} else {
-			contextEnd = min(len(sd.source), change.End+10)
-		}
-		var leftContext = sd.source[contextBegin:change.Start]
-		var rightContext = sd.source[change.End:contextEnd]
-		var oldPart = sd.source[change.Start:change.End]
-		var newPart = change.New
-		s += "..." + leftContext + " --(" + oldPart + ") ++(" + newPart + ") " + rightContext + "..." + "\n"
-	}
-	return s
-}
-
-type OtherDifference struct {
-	path    string
-	oldPart string
-	newPart string
-}
-
-func (sd OtherDifference) GetOutput() string {
-	return sd.path + "\n" + " --(" + sd.oldPart + ") ++(" + sd.newPart + ") " + "\n"
-}
 
 func Compare(xml1 *Node, xml2 *Node) []XMLDifference {
 	return compare(xml1, xml2, "/0.")
@@ -126,7 +86,7 @@ func getChildrenDifferences(xml1 *Node, xml2 *Node, currentPath string) []XMLDif
 
 	var nChildren = min(len(xml1.Nodes), len(xml2.Nodes))
 	for i := 0; i < nChildren; i++ {
-		var childPath=currentPath + util.ToString(i) + "."
+		var childPath = currentPath + util.ToString(i) + "."
 		var childDifferences = compare(xml1.Nodes[i], xml2.Nodes[i], childPath)
 		childrenDifferences = append(childrenDifferences, childDifferences...)
 	}
