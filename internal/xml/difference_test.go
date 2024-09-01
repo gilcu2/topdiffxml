@@ -6,7 +6,7 @@ import (
 	"xmldiff/internal/util"
 )
 
-func Test_StringDifferences_GetOutput(t *testing.T) {
+func Test_StringDifferences_GetOutput_1Difference(t *testing.T) {
 	// Given string diff
 	var diff = StringDifferences{
 		path:   "/0.ConnectedApp.DATA",
@@ -26,6 +26,34 @@ func Test_StringDifferences_GetOutput(t *testing.T) {
 	// Then it is the expected
 	util.Assert(t,len(output),1)
 	util.Assert(t,output[0],"/0.ConnectedApp.DATA[3:6]\n...Woo --(Com) ++(Kan) merce...\n")
+}
+
+func Test_StringDifferences_GetOutput_2Differences(t *testing.T) {
+	// Given string diff
+	var diff = StringDifferences{
+		path:   "/0.ConnectedApp.DATA",
+		source: "WooCommerce",
+		changes: []textdiff.Edit{
+			textdiff.Edit{
+				Start: 3,
+				End:   6,
+				New:   "Kan",
+			},
+			textdiff.Edit{
+				Start: 11,
+				End:   11,
+				New:   "papa",
+			},
+		},
+	}
+
+	// When get output
+	var output=diff.GetOutput()
+
+	// Then it is the expected
+	util.Assert(t,len(output),2)
+	util.Assert(t,output[0],"/0.ConnectedApp.DATA[3:6]\n...Woo --(Com) ++(Kan) me...\n")
+	util.Assert(t,output[1],"/0.ConnectedApp.DATA[11:11]\n...rce --() ++(papa) ...\n")
 }
 
 

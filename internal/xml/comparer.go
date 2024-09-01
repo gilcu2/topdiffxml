@@ -76,8 +76,8 @@ func getChildrenDifferences(xml1 *Node, xml2 *Node, currentPath string) []XMLDif
 	if len(xml1.Nodes) != len(xml2.Nodes) {
 		var difference = OtherDifference{
 			path:    currentPath + ".NODES.LEN",
-			oldPart: util.ToString(len(xml1.Attributes)),
-			newPart: util.ToString(len(xml2.Attributes)),
+			oldPart: util.ToString(len(xml1.Nodes)),
+			newPart: util.ToString(len(xml2.Nodes)),
 		}
 		childrenDifferences = append(childrenDifferences, difference)
 	}

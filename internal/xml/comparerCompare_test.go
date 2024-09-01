@@ -189,7 +189,7 @@ func TestCompare_WhenDifferentAttributeNumberRootNode(t *testing.T) {
 	util.Assert(t, diff.newPart, "2")
 }
 
-func TestCompareChildrenNode(t *testing.T) {
+func TestCompareChildrenNodeData(t *testing.T) {
 	// Given 2 xml
 	var xml1Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
@@ -235,4 +235,64 @@ func TestCompareChildrenNode(t *testing.T) {
 	util.Assert(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
 	util.Assert(t, change0, textdiff.Edit{3, 3, "1"})
+}
+
+
+func TestCompareChildrenLen(t *testing.T) {
+	// Given 2 xml
+	var xml1Str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+	<contactEmail>foo@example.org</contactEmail>
+	<label>WooCommerce</label>
+	<oauthConfig>
+		<!-- Url for callback -->
+		<callbackUrl>https://login.salesforce.com/services/oauth2/callback</callbackUrl>
+		<consumerKey required="true">CLIENTID</consumerKey>
+		<scopes>Basic</scopes>
+		<scopes>Api</scopes>
+		<scopes>Web</scopes>
+		<scopes>Full</scopes>
+	</oauthConfig>
+</ConnectedApp>`
+	var xml1, err1 = Parse(xml1Str)
+	assert.Equal(t, err1, nil)
+
+	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+	<contactEmail>foo@example.org</contactEmail>
+	<label>WooCommerce</label>
+	<oauthConfig>
+		<!-- Url for callback -->
+		<callbackUrl>https://login.salesforce.com/services/oauth2/callback</callbackUrl>
+		<consumerKey required="true">CLIENTID</consumerKey>
+		<scopes>Basic</scopes>
+		<scopes>Web</scopes>
+		<scopes>Full</scopes>
+	</oauthConfig>
+</ConnectedApp>`
+	var xml2, err2 = Parse(xml2Str)
+	util.Assert(t, err2, nil)
+
+	// When compare
+	var diffs = Compare(xml1, xml2)
+
+	// Then must be different
+	util.Assert(t, len(diffs), 3)
+
+	var diff0 = diffs[0].(OtherDifference)
+	util.Assert(t, diff0.path, "/0.ConnectedApp/2.oauthConfig.NODES.LEN")
+	util.Assert(t,diff0.oldPart, "6")
+	util.Assert(t,diff0.newPart, "5")
+
+	var diff1 = diffs[1].(StringDifferences)
+	util.Assert(t, diff1.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
+	util.Assert(t,len(diff1.changes), 1)
+	var change1_0 = diff1.changes[0]
+	util.Assert(t, change1_0, textdiff.Edit{0, 3, "Web"})
+
+	var diff2 = diffs[2].(StringDifferences)
+	util.Assert(t, diff2.path, "/0.ConnectedApp/2.oauthConfig/4.scopes.DATA")
+	util.Assert(t,len(diff2.changes), 1)
+	var change2_0 = diff2.changes[0]
+	util.Assert(t, change2_0, textdiff.Edit{0, 3, "Full"})
 }
