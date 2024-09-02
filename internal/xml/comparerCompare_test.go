@@ -2,9 +2,8 @@ package xml
 
 import (
 	"github.com/akedrou/textdiff"
-	"github.com/stretchr/testify/assert"
+	"gotest.tools/v3/assert"
 	"testing"
-	"xmldiff/internal/util"
 )
 
 func TestCompare_WhenEqual(t *testing.T) {
@@ -24,7 +23,7 @@ func TestCompare_WhenEqual(t *testing.T) {
 	</oauthConfig>
 </ConnectedApp>`
 	var xml1, err1 = Parse(xml1Str)
-	util.Assert(t, err1, nil)
+	assert.Equal(t, err1, nil)
 
 	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
@@ -41,13 +40,13 @@ func TestCompare_WhenEqual(t *testing.T) {
 	</oauthConfig>
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be no differences
-	util.Assert(t, len(diffs), 0)
+	assert.Equal(t, len(diffs), 0)
 }
 
 func TestCompare_WhenDifferentRootNodeName(t *testing.T) {
@@ -64,18 +63,18 @@ func TestCompare_WhenDifferentRootNodeName(t *testing.T) {
 	Test 1 different
 </ConnectedApp1>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be expected
-	util.Assert(t, len(diffs), 1)
+	assert.Equal(t, len(diffs), 1)
 	var diff0 = diffs[0].(StringDifferences)
-	util.Assert(t, diff0.path, "/0.NAME")
-	util.Assert(t, len(diff0.changes), 1)
+	assert.Equal(t, diff0.path, "/0.NAME")
+	assert.Equal(t, len(diff0.changes), 1)
 	var change0 = diff0.changes[0]
-	util.Assert(t, change0, textdiff.Edit{12, 12, "1"})
+	assert.Equal(t, change0, textdiff.Edit{12, 12, "1"})
 }
 
 func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
@@ -85,25 +84,25 @@ func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
 	Test 1 different
 </ConnectedApp>`
 	var xml1, err1 = Parse(xml1Str)
-	util.Assert(t, err1, nil)
+	assert.Equal(t, err1, nil)
 
 	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
 	Test 2 different
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be expected
-	util.Assert(t, len(diffs), 1)
+	assert.Equal(t, len(diffs), 1)
 	var diff0 = diffs[0].(StringDifferences)
-	util.Assert(t, diff0.path, "/0.ConnectedApp.DATA")
-	util.Assert(t, len(diff0.changes), 1)
+	assert.Equal(t, diff0.path, "/0.ConnectedApp.DATA")
+	assert.Equal(t, len(diff0.changes), 1)
 	var change0 = diff0.changes[0]
-	util.Assert(t, change0, textdiff.Edit{5, 6, "2"})
+	assert.Equal(t, change0, textdiff.Edit{5, 6, "2"})
 }
 
 func TestCompare_WhenDifferentAttributeValueRootNode(t *testing.T) {
@@ -113,25 +112,25 @@ func TestCompare_WhenDifferentAttributeValueRootNode(t *testing.T) {
 	Test 1 different
 </ConnectedApp>`
 	var xml1, err1 = Parse(xml1Str)
-	util.Assert(t, err1, nil)
+	assert.Equal(t, err1, nil)
 
 	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2007/04/metadata">
 	Test 1 different
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be expected
-	util.Assert(t, len(diffs), 1)
+	assert.Equal(t, len(diffs), 1)
 	var diff = diffs[0].(StringDifferences)
-	util.Assert(t, diff.path, "/0.ConnectedApp.ATTR.xmlns")
-	util.Assert(t,len(diff.changes), 1)
+	assert.Equal(t, diff.path, "/0.ConnectedApp.ATTR.xmlns")
+	assert.Equal(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
-	util.Assert(t, change0, textdiff.Edit{26, 27, "7"})
+	assert.Equal(t, change0, textdiff.Edit{26, 27, "7"})
 }
 
 func TestCompare_WhenDifferentAttributeNameRootNode(t *testing.T) {
@@ -141,25 +140,25 @@ func TestCompare_WhenDifferentAttributeNameRootNode(t *testing.T) {
 	Test 1 different
 </ConnectedApp>`
 	var xml1, err1 = Parse(xml1Str)
-	util.Assert(t, err1, nil)
+	assert.Equal(t, err1, nil)
 
 	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmln="http://soap.sforce.com/2006/04/metadata">
 	Test 1 different
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be expected
-	util.Assert(t, len(diffs), 1)
+	assert.Equal(t, len(diffs), 1)
 	var diff = diffs[0].(StringDifferences)
-	util.Assert(t, diff.path, "/0.ConnectedApp.ATTR[0].NAME")
-	util.Assert(t,len(diff.changes), 1)
+	assert.Equal(t, diff.path, "/0.ConnectedApp.ATTR[0].NAME")
+	assert.Equal(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
-	util.Assert(t, change0, textdiff.Edit{4, 5, ""})
+	assert.Equal(t, change0, textdiff.Edit{4, 5, ""})
 }
 
 func TestCompare_WhenDifferentAttributeNumberRootNode(t *testing.T) {
@@ -169,24 +168,24 @@ func TestCompare_WhenDifferentAttributeNumberRootNode(t *testing.T) {
 	Test 1 different
 </ConnectedApp>`
 	var xml1, err1 = Parse(xml1Str)
-	util.Assert(t, err1, nil)
+	assert.Equal(t, err1, nil)
 
 	var xml2Str = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata" qq="pp">
 	Test 1 different
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be expected
-	util.Assert(t, len(diffs), 1)
+	assert.Equal(t, len(diffs), 1)
 	var diff = diffs[0].(OtherDifference)
-	util.Assert(t, diff.path, "/0.ConnectedApp.ATTR.LEN")
-	util.Assert(t, diff.oldPart, "1")
-	util.Assert(t, diff.newPart, "2")
+	assert.Equal(t, diff.path, "/0.ConnectedApp.ATTR.LEN")
+	assert.Equal(t, diff.oldPart, "1")
+	assert.Equal(t, diff.newPart, "2")
 }
 
 func TestCompareChildrenNodeData(t *testing.T) {
@@ -223,18 +222,18 @@ func TestCompareChildrenNodeData(t *testing.T) {
 	</oauthConfig>
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be different
-	util.Assert(t, len(diffs), 1)
+	assert.Equal(t, len(diffs), 1)
 	var diff = diffs[0].(StringDifferences)
-	util.Assert(t, diff.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
-	util.Assert(t,len(diff.changes), 1)
+	assert.Equal(t, diff.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
+	assert.Equal(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
-	util.Assert(t, change0, textdiff.Edit{3, 3, "1"})
+	assert.Equal(t, change0, textdiff.Edit{3, 3, "1"})
 }
 
 
@@ -271,28 +270,28 @@ func TestCompareChildrenLen(t *testing.T) {
 	</oauthConfig>
 </ConnectedApp>`
 	var xml2, err2 = Parse(xml2Str)
-	util.Assert(t, err2, nil)
+	assert.Equal(t, err2, nil)
 
 	// When compare
 	var diffs = Compare(xml1, xml2)
 
 	// Then must be different
-	util.Assert(t, len(diffs), 3)
+	assert.Equal(t, len(diffs), 3)
 
 	var diff0 = diffs[0].(OtherDifference)
-	util.Assert(t, diff0.path, "/0.ConnectedApp/2.oauthConfig.NODES.LEN")
-	util.Assert(t,diff0.oldPart, "6")
-	util.Assert(t,diff0.newPart, "5")
+	assert.Equal(t, diff0.path, "/0.ConnectedApp/2.oauthConfig.NODES.LEN")
+	assert.Equal(t,diff0.oldPart, "6")
+	assert.Equal(t,diff0.newPart, "5")
 
 	var diff1 = diffs[1].(StringDifferences)
-	util.Assert(t, diff1.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
-	util.Assert(t,len(diff1.changes), 1)
+	assert.Equal(t, diff1.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
+	assert.Equal(t,len(diff1.changes), 1)
 	var change1_0 = diff1.changes[0]
-	util.Assert(t, change1_0, textdiff.Edit{0, 3, "Web"})
+	assert.Equal(t, change1_0, textdiff.Edit{0, 3, "Web"})
 
 	var diff2 = diffs[2].(StringDifferences)
-	util.Assert(t, diff2.path, "/0.ConnectedApp/2.oauthConfig/4.scopes.DATA")
-	util.Assert(t,len(diff2.changes), 1)
+	assert.Equal(t, diff2.path, "/0.ConnectedApp/2.oauthConfig/4.scopes.DATA")
+	assert.Equal(t,len(diff2.changes), 1)
 	var change2_0 = diff2.changes[0]
-	util.Assert(t, change2_0, textdiff.Edit{0, 3, "Full"})
+	assert.Equal(t, change2_0, textdiff.Edit{0, 3, "Full"})
 }

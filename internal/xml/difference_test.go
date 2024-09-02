@@ -3,7 +3,7 @@ package xml
 import (
 	"github.com/akedrou/textdiff"
 	"testing"
-	"xmldiff/internal/util"
+	"gotest.tools/v3/assert"
 )
 
 func Test_StringDifferences_GetOutput_1Difference(t *testing.T) {
@@ -24,8 +24,8 @@ func Test_StringDifferences_GetOutput_1Difference(t *testing.T) {
 	var output=diff.GetOutput()
 
 	// Then it is the expected
-	util.Assert(t,len(output),1)
-	util.Assert(t,output[0],"/0.ConnectedApp.DATA[3:6]\n...Woo --(Com) ++(Kan) merce...\n")
+	assert.Equal(t,len(output),1)
+	assert.Equal(t,output[0],"/0.ConnectedApp.DATA[3:6]\n...Woo --(Com) ++(Kan) merce...\n")
 }
 
 func Test_StringDifferences_GetOutput_2Differences(t *testing.T) {
@@ -51,9 +51,9 @@ func Test_StringDifferences_GetOutput_2Differences(t *testing.T) {
 	var output=diff.GetOutput()
 
 	// Then it is the expected
-	util.Assert(t,len(output),2)
-	util.Assert(t,output[0],"/0.ConnectedApp.DATA[3:6]\n...Woo --(Com) ++(Kan) me...\n")
-	util.Assert(t,output[1],"/0.ConnectedApp.DATA[11:11]\n...rce --() ++(papa) ...\n")
+	assert.Equal(t,len(output),2)
+	assert.Equal(t,output[0],"/0.ConnectedApp.DATA[3:6]\n...Woo --(Com) ++(Kan) me...\n")
+	assert.Equal(t,output[1],"/0.ConnectedApp.DATA[11:11]\n...rce --() ++(papa) ...\n")
 }
 
 
@@ -69,6 +69,6 @@ func Test_OtherDifference_GetOutput(t *testing.T) {
 	var output=diff.GetOutput()
 
 	// Then it is the expected
-	util.Assert(t,len(output),1)
-	util.Assert(t,output[0],"/0.ConnectedApp.NODES.LEN\n--(1) ++(2)\n")
+	assert.Equal(t,len(output),1)
+	assert.Equal(t,output[0],"/0.ConnectedApp.NODES.LEN\n--(1) ++(2)\n")
 }

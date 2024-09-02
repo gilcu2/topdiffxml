@@ -11,6 +11,7 @@ require (
 	github.com/dave/courtney v0.4.1 // indirect
 	github.com/dave/patsy v0.0.0-20210517141501-957256f50cba // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/gkampitakis/coverage v0.0.2 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect

@@ -43,12 +43,12 @@ func CompareXmlStrings(str1 string, str2 string) ([]string, error) {
 
 	var xml1, err1 = xml.Parse(str1)
 	if err1 != nil {
-		return nil, errors.New(fmt.Sprintf("Error parsing first file as xml: %s", err1))
+		return nil, errors.New(fmt.Sprintf("Error parsing first xml: %s", err1))
 	}
 
 	var xml2, err2 = xml.Parse(str2)
 	if err2 != nil {
-		return nil, errors.New(fmt.Sprintf("Error parsing second file as xml: %s", err2))
+		return nil, errors.New(fmt.Sprintf("Error parsing second xml: %s", err2))
 	}
 
 	var differences = xml.Compare(xml1, xml2)
