@@ -3,7 +3,7 @@ package xml
 import (
 	"github.com/akedrou/textdiff"
 	"strconv"
-	"xmldiff/internal/util"
+	"github.com/gilcu2/topdiffxml/internal/util"
 )
 
 

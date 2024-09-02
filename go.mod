@@ -1,4 +1,4 @@
-module xmldiff
+module github.com/gilcu2/topdiffxml
 
 go 1.23.0
 

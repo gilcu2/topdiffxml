@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"xmldiff/internal/io"
+	"github.com/gilcu2/topdiffxml/internal/io"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"xmldiff/internal/xml"
+	"github.com/gilcu2/topdiffxml/internal/xml"
 )
 
 func ReadFile(filename string) (string, error) {
