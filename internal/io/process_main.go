@@ -1,10 +1,9 @@
 package io
 
 import (
-	"errors"
 	"fmt"
-	"os"
 	"github.com/gilcu2/topdiffxml/internal/xml"
+	"os"
 )
 
 func ReadFile(filename string) (string, error) {
@@ -19,12 +18,12 @@ func ReadFile(filename string) (string, error) {
 func CompareXmlFiles(file1 string, file2 string) ([]string, error) {
 	var str1, err1 = ReadFile(file1)
 	if err1 != nil {
-		return nil, errors.New(fmt.Sprintf("Error reading file %s: %s", file1, err1))
+		return nil, fmt.Errorf("error reading file %s: %s", file1, err1)
 	}
 
 	var str2, err2 = ReadFile(file2)
 	if err2 != nil {
-		return nil, errors.New(fmt.Sprintf("Error reading file %s: %s", file2, err2))
+		return nil, fmt.Errorf("error reading file %s: %s", file2, err2)
 	}
 
 	var diffs, err = CompareXmlStrings(str1, str2)
@@ -43,12 +42,12 @@ func CompareXmlStrings(str1 string, str2 string) ([]string, error) {
 
 	var xml1, err1 = xml.Parse(str1)
 	if err1 != nil {
-		return nil, errors.New(fmt.Sprintf("Error parsing first xml: %s", err1))
+		return nil, fmt.Errorf("error parsing first xml: %s", err1)
 	}
 
 	var xml2, err2 = xml.Parse(str2)
 	if err2 != nil {
-		return nil, errors.New(fmt.Sprintf("Error parsing second xml: %s", err2))
+		return nil, fmt.Errorf("error parsing second xml: %s", err2)
 	}
 
 	var differences = xml.Compare(xml1, xml2)
