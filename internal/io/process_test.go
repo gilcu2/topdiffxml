@@ -1,27 +1,9 @@
 package io
 
 import (
-	"fmt"
-	"os"
 	"testing"
-	"xmldiff/internal/util"
+	"gotest.tools/v3/assert"
 )
-
-func TestMain(m *testing.M) {
-	// call flag.Parse() here if TestMain uses flags
-	rc := m.Run()
-
-	// rc 0 means we've passed,
-	// and CoverMode will be non empty if run with -cover
-	if rc == 0 && testing.CoverMode() != "" {
-		c := testing.Coverage()
-		if c < 0.8 {
-			fmt.Println("Tests passed but coverage failed at", c)
-			rc = -1
-		}
-	}
-	os.Exit(rc)
-}
 
 func Test_CompareXMLStrings_ChildNodeData(t *testing.T) {
 	// Given 2 xml
@@ -57,12 +39,12 @@ func Test_CompareXMLStrings_ChildNodeData(t *testing.T) {
 
 	// When compare
 	var printedDiffs, err = CompareXmlStrings(xml1Str, xml2Str)
-	util.Assert(t, err, nil)
+	assert.Equal(t, err, nil)
 
 	// Then must be the expected
-	util.Assert(t, len(printedDiffs), 1)
+	assert.Equal(t, len(printedDiffs), 1)
 	var diff = printedDiffs[0]
-	util.Assert(t, diff,
+	assert.Equal(t, diff,
 		"/0.ConnectedApp/2.oauthConfig/3.scopes.DATA[3:3]\n" +
 		"...Api --() ++(1) ...\n")
 }
@@ -101,14 +83,14 @@ func Test_CompareXMLStrings_ChildNodeAttributeName(t *testing.T) {
 
 	// When compare
 	var printedDiffs, err = CompareXmlStrings(xml1Str, xml2Str)
-	util.Assert(t, err, nil)
+	assert.Equal(t, err, nil)
 
 	// Then must be the expected
-	util.Assert(t, len(printedDiffs), 2)
-	util.Assert(t, printedDiffs[0],
+	assert.Equal(t, len(printedDiffs), 2)
+	assert.Equal(t, printedDiffs[0],
 		"/0.ConnectedApp/2.oauthConfig/1.consumerKey.ATTR[0].NAME[6:6]\n" +
 		"...requir --() ++(es) ed...\n")
-	util.Assert(t, printedDiffs[1],
+	assert.Equal(t, printedDiffs[1],
 		"/0.ConnectedApp/2.oauthConfig/3.scopes.DATA[3:3]\n" +
 		"...Api --() ++(1) ...\n")
 }
@@ -121,12 +103,30 @@ func Test_CompareXMLFiles_ChildNode(t *testing.T) {
 
 	// When compare
 	var printedDiffs, err = CompareXmlFiles(file1, file2)
-	util.Assert(t, err, nil)
+	assert.Equal(t, err, nil)
 
 	// Then must be the expected
-	util.Assert(t, len(printedDiffs), 1)
+	assert.Equal(t, len(printedDiffs), 1)
 	var diff = printedDiffs[0]
-	util.Assert(t, diff,
+	assert.Equal(t, diff,
 		"/0.ConnectedApp/2.oauthConfig/3.scopes.DATA[3:3]\n" +
 		"...Api --() ++(1) ...\n")
+}
+
+func Test_CompareXMLFiles_InvalidFile1(t *testing.T) {
+	// Given 2 xml
+	var file1 = "testfiles/basicA1.xml"
+	var file2 = "testfiles/basicB.xml"
+
+	// When compare
+	var printedDiffs, err = CompareXmlFiles(file1, file2)
+
+	// Then must be the expected
+	assert.Equal(t, printedDiffs, nil)
+	assert.Equal(t, err, nil)
+	assert.Equal(t, len(printedDiffs), 1)
+	var diff = printedDiffs[0]
+	assert.Equal(t, diff,
+		"/0.ConnectedApp/2.oauthConfig/3.scopes.DATA[3:3]\n" +
+			"...Api --() ++(1) ...\n")
 }

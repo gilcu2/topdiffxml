@@ -8,6 +8,8 @@ import (
 	"xmldiff/internal/io"
 )
 
+// notest
+
 func main() {
 	var file1, file2 string
 

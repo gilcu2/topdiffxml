@@ -4,6 +4,7 @@ package util
 
 import (
 	"strconv"
+	"gotest.tools/v3/assert"
 	"testing"
 )
 
@@ -15,7 +16,7 @@ func TestToStringInt(t *testing.T) {
 	var r=ToString(i)
 
 	// Then must be the expected
-	Assert(t,r,strconv.Itoa(i))
+	assert.Equal(t,r,strconv.Itoa(i))
 }
 
 func TestToStringFloat(t *testing.T) {
@@ -26,5 +27,5 @@ func TestToStringFloat(t *testing.T) {
 	var r=ToString(f)
 
 	// Then must be the expected
-	Assert(t,r,strconv.FormatFloat(f, 'f', -1, 64))
+	assert.Equal(t,r,strconv.FormatFloat(f, 'f', -1, 64))
 }
