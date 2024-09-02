@@ -74,7 +74,7 @@ func TestCompare_WhenDifferentRootNodeName(t *testing.T) {
 	assert.Equal(t, diff0.path, "/0.NAME")
 	assert.Equal(t, len(diff0.changes), 1)
 	var change0 = diff0.changes[0]
-	assert.Equal(t, change0, textdiff.Edit{12, 12, "1"})
+	assert.Equal(t, change0, textdiff.Edit{Start: 12, End: 12, New: "1"})
 }
 
 func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
@@ -102,7 +102,7 @@ func TestCompare_WhenDifferentDataRootNode(t *testing.T) {
 	assert.Equal(t, diff0.path, "/0.ConnectedApp.DATA")
 	assert.Equal(t, len(diff0.changes), 1)
 	var change0 = diff0.changes[0]
-	assert.Equal(t, change0, textdiff.Edit{5, 6, "2"})
+	assert.Equal(t, change0, textdiff.Edit{Start: 5, End: 6, New: "2"})
 }
 
 func TestCompare_WhenDifferentAttributeValueRootNode(t *testing.T) {
@@ -130,7 +130,7 @@ func TestCompare_WhenDifferentAttributeValueRootNode(t *testing.T) {
 	assert.Equal(t, diff.path, "/0.ConnectedApp.ATTR.xmlns")
 	assert.Equal(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
-	assert.Equal(t, change0, textdiff.Edit{26, 27, "7"})
+	assert.Equal(t, change0, textdiff.Edit{Start: 26, End: 27, New: "7"})
 }
 
 func TestCompare_WhenDifferentAttributeNameRootNode(t *testing.T) {
@@ -158,7 +158,7 @@ func TestCompare_WhenDifferentAttributeNameRootNode(t *testing.T) {
 	assert.Equal(t, diff.path, "/0.ConnectedApp.ATTR[0].NAME")
 	assert.Equal(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
-	assert.Equal(t, change0, textdiff.Edit{4, 5, ""})
+	assert.Equal(t, change0, textdiff.Edit{Start: 4, End: 5})
 }
 
 func TestCompare_WhenDifferentAttributeNumberRootNode(t *testing.T) {
@@ -233,7 +233,7 @@ func TestCompareChildrenNodeData(t *testing.T) {
 	assert.Equal(t, diff.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
 	assert.Equal(t,len(diff.changes), 1)
 	var change0 = diff.changes[0]
-	assert.Equal(t, change0, textdiff.Edit{3, 3, "1"})
+	assert.Equal(t, change0, textdiff.Edit{Start: 3, End: 3, New: "1"})
 }
 
 
@@ -287,11 +287,11 @@ func TestCompareChildrenLen(t *testing.T) {
 	assert.Equal(t, diff1.path, "/0.ConnectedApp/2.oauthConfig/3.scopes.DATA")
 	assert.Equal(t,len(diff1.changes), 1)
 	var change1_0 = diff1.changes[0]
-	assert.Equal(t, change1_0, textdiff.Edit{0, 3, "Web"})
+	assert.Equal(t, change1_0, textdiff.Edit{End: 3, New: "Web"})
 
 	var diff2 = diffs[2].(StringDifferences)
 	assert.Equal(t, diff2.path, "/0.ConnectedApp/2.oauthConfig/4.scopes.DATA")
 	assert.Equal(t,len(diff2.changes), 1)
 	var change2_0 = diff2.changes[0]
-	assert.Equal(t, change2_0, textdiff.Edit{0, 3, "Full"})
+	assert.Equal(t, change2_0, textdiff.Edit{End: 3, New: "Full"})
 }

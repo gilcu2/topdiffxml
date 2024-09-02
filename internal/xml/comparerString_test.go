@@ -32,7 +32,7 @@ func TestCompareString_WhenAddedAtEnd(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{4,4,"more"})
+	assert.Equal(t,change0,textdiff.Edit{Start: 4, End: 4, New: "more"})
 }
 
 func TestCompareString_WhenAddedAtBegin(t *testing.T) {
@@ -47,7 +47,7 @@ func TestCompareString_WhenAddedAtBegin(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{0,0,"more"})
+	assert.Equal(t,change0,textdiff.Edit{New: "more"})
 }
 
 func TestCompareString_WhenAddedAtMiddle(t *testing.T) {
@@ -62,7 +62,7 @@ func TestCompareString_WhenAddedAtMiddle(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{4,4,"more"})
+	assert.Equal(t,change0,textdiff.Edit{Start: 4, End: 4, New: "more"})
 }
 
 func TestCompareString_WhenRemovedAtEnd(t *testing.T) {
@@ -77,7 +77,7 @@ func TestCompareString_WhenRemovedAtEnd(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{4,8,""})
+	assert.Equal(t,change0,textdiff.Edit{Start: 4, End: 8})
 }
 
 func TestCompareString_WhenRemovedAtBegin(t *testing.T) {
@@ -92,7 +92,7 @@ func TestCompareString_WhenRemovedAtBegin(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{0,4,""})
+	assert.Equal(t,change0,textdiff.Edit{End: 4})
 }
 
 func TestCompareString_WhenChangedAtBegin(t *testing.T) {
@@ -107,7 +107,7 @@ func TestCompareString_WhenChangedAtBegin(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{0,4,"papi"})
+	assert.Equal(t,change0,textdiff.Edit{End: 4, New: "papi"})
 }
 
 func TestCompareString_WhenChangedAtMiddle(t *testing.T) {
@@ -122,7 +122,7 @@ func TestCompareString_WhenChangedAtMiddle(t *testing.T) {
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
 	assert.Equal(t,differences.path,"/")
-	assert.Equal(t,change0,textdiff.Edit{4,8,"papi"})
+	assert.Equal(t,change0,textdiff.Edit{Start: 4, End: 8, New: "papi"})
 }
 
 func TestCompareString_WhenChangedAtEnd(t *testing.T) {
@@ -136,5 +136,5 @@ func TestCompareString_WhenChangedAtEnd(t *testing.T) {
 	// Then must be expected
 	assert.Equal(t, len(differences.changes), 1)
 	var change0 = differences.changes[0]
-	assert.Equal(t,change0,textdiff.Edit{4,8,"papi"})
+	assert.Equal(t,change0,textdiff.Edit{Start: 4, End: 8, New: "papi"})
 }
