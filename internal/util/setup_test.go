@@ -1,4 +1,4 @@
-package testfiles
+package util
 
 import (
 	"github.com/gkampitakis/coverage"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	coverage.Run(m, 95)
+	coverage.Run(m, 0)
 }

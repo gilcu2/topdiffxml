@@ -1,7 +1,13 @@
 package util
 
 import "fmt"
+import "golang.org/x/exp/constraints"
 
-func ToString[T any](v T) string  {
+type Number interface {
+	constraints.Integer | constraints.Float
+}
+
+
+func ToString[T Number](v T) string  {
 	return fmt.Sprint(v)
 }
