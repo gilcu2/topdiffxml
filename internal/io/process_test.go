@@ -119,7 +119,7 @@ func Test_CompareXMLStrings_InvalidXML(t *testing.T) {
 
 	// Then must be the expected
 	assert.Equal(t, len(printedDiffs), 0)
-	assert.ErrorContains(t, err, "Error parsing second xml")
+	assert.ErrorContains(t, err, "error parsing second xml")
 }
 
 func Test_CompareXMLFiles_ChildNode(t *testing.T) {
@@ -149,7 +149,7 @@ func Test_CompareXMLFiles_InvalidFile1(t *testing.T) {
 
 	// Then must be the expected
 	assert.Equal(t, len(printedDiffs), 0)
-	assert.ErrorContains(t, err, "Error reading file testfiles/basicA1.xml")
+	assert.ErrorContains(t, err, "error reading file testfiles/basicA1.xml")
 }
 
 func Test_CompareXMLFiles_InvalidFile2(t *testing.T) {
@@ -162,7 +162,7 @@ func Test_CompareXMLFiles_InvalidFile2(t *testing.T) {
 
 	// Then must be the expected
 	assert.Equal(t, len(printedDiffs), 0)
-	assert.ErrorContains(t, err, "Error reading file testfiles/basicB1.xml")
+	assert.ErrorContains(t, err, "error reading file testfiles/basicB1.xml")
 }
 
 func Test_CompareXMLFiles_InvalidFileXML(t *testing.T) {
@@ -175,5 +175,5 @@ func Test_CompareXMLFiles_InvalidFileXML(t *testing.T) {
 
 	// Then must be the expected
 	assert.Equal(t, len(printedDiffs), 0)
-	assert.ErrorContains(t, err, "Error parsing first xml")
+	assert.ErrorContains(t, err, "error parsing first xml")
 }
