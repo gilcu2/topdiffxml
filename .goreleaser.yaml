@@ -39,8 +39,8 @@ changelog:
       - "^test:"
 
 brews:
-  -
-    name: topdiffxml
+  - name: topdiffxml
+    homepage: https://github.com/gilcu2/topdiffxml
     description: "Generate top differences between 2 xml documents."
     commit_author:
       name: Reynaldo Gil
@@ -48,5 +48,5 @@ brews:
     install: bin.install "topdiffxml"
     repository:
       owner: gilcu2
-      name: packages
+      name: homebrew-packages
 
