@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.3.2] - 2024-09-03
+### Fixed
+- goreleaser config
+
 ## [0.3.1] - 2024-09-03
 ### Fixed
 - goreleaser config
@@ -25,7 +29,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Print top diff of 2 xml files comparing nodes and attributes in the given order
 
-[Unreleased]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.1...master
+[Unreleased]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.2...master
+[0.3.2]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.1...0.3.2
 [0.3.1]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.0...0.3.1
 [0.3.0]: https://github.com/gilcu2/topdiffxml.git/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/gilcu2/topdiffxml.git/compare/0.1.1...0.2.0

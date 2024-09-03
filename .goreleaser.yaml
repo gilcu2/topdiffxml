@@ -46,3 +46,6 @@ brews:
       name: Reynaldo Gil
       email: gilcu2@gmail.com
     install: bin.install "topdiffxml"
+    repository:
+      name: topdiffxml
+
