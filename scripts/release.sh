@@ -1,8 +1,9 @@
 #!/bin/bash
 
-#go test -coverpkg=./... -coverprofile=coverage.out ./...
-go test -coverprofile=coverage.out ./...
-go tool cover -func coverage.out
-#go tool cover -html coverage.out
+VERSION=$1
+kacl-cli release $VERSION --modify --auto-link
+git commit -a -m "updated CHANGELOG for release"
+git tag $VERSION
+
 
 
