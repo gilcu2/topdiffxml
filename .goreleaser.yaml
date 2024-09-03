@@ -47,5 +47,6 @@ brews:
       email: gilcu2@gmail.com
     install: bin.install "topdiffxml"
     repository:
-      name: topdiffxml
+      owner: gilcu2
+      name: packages
 
