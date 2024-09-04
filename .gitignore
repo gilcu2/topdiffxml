@@ -19,3 +19,7 @@ build
 dist
 
 *.pprof
+dist/
+
+.idea
+go.sum
