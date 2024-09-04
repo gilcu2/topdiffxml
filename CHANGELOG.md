@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.5.4] - 2024-09-04
+### Fixed
+- Release script
+
 ## [0.5.3] - 2024-09-04
 ### Fixed
 - Release script
@@ -89,7 +93,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Print top diff of 2 xml files comparing nodes and attributes in the given order
 
-[Unreleased]: https://github.com/gilcu2/topdiffxml/compare/0.5.3...master
+[Unreleased]: https://github.com/gilcu2/topdiffxml/compare/0.5.4...master
+[0.5.4]: https://github.com/gilcu2/topdiffxml/compare/0.5.3...0.5.4
 [0.5.3]: https://github.com/gilcu2/topdiffxml/compare/0.5.2...0.5.3
 [0.5.2]: https://github.com/gilcu2/topdiffxml/compare/0.5.1...0.5.2
 [0.5.1]: https://github.com/gilcu2/topdiffxml/compare/0.5.0...0.5.1
