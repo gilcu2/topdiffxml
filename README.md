@@ -1,7 +1,7 @@
 # topdiffxml: CLI that generate top differences between 2 xml documents
 
 topdiffxml command compares 2 xml files and return the top differences.
-Top means that if the corresponding nodes of the xml files are different the differences
+Top means that if the corresponding nodes of the xml files are different then the differences
 between its subnodes are not showed.
 
 ## Install
