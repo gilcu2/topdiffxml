@@ -16,7 +16,7 @@ type StringDifferences struct {
 }
 
 func (sd StringDifferences) GetOutput() []string {
-	var contextBegin = 0
+	var contextBegin int
 	var contextEnd = 0
 	var r []string
 	for i := range len(sd.changes) {

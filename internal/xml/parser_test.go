@@ -22,7 +22,7 @@ func assertNode(node *Node, name string, data string,
 
 func TestParse(t *testing.T) {
 	// Given xml
-	var xml_str = `<?xml version="1.0" encoding="UTF-8"?>
+	var xmlStr = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
 	<contactEmail>foo@example.org</contactEmail>
 	<label>WooCommerce</label>
@@ -38,7 +38,7 @@ func TestParse(t *testing.T) {
 </ConnectedApp>`
 
 	// When parsed
-	var parsed,err=Parse(xml_str)
+	var parsed,err=Parse(xmlStr)
 
 	// Then it is expected
 	assert.Equal(t, err,nil)
@@ -76,13 +76,13 @@ func TestParse(t *testing.T) {
 
 func TestParse_Invalid(t *testing.T) {
 	// Given xml
-	var xml_str = `<?xml version="1.0" encoding="UTF-8"?>
+	var xmlStr = `<?xml version="1.0" encoding="UTF-8"?>
 <ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
 	<contactEmail>foo@example.org</contactEmail1>
 </ConnectedApp>`
 
 	// When parsed
-	var _,err=Parse(xml_str)
+	var _,err=Parse(xmlStr)
 
 	// Then it is expected
 	assert.ErrorContains(t, err, "XML syntax error")
