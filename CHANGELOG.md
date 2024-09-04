@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [0.4.1] - 2024-09-04
+### Fixed
+- Set git tag to begin with v like v0.1.2
+
 ## [0.4.0] - 2024-09-03
 ### Added
 - Publishing to go.dev
@@ -41,7 +45,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Print top diff of 2 xml files comparing nodes and attributes in the given order
 
-[Unreleased]: https://github.com/gilcu2/topdiffxml.git/compare/0.4.0...master
+[Unreleased]: https://github.com/gilcu2/topdiffxml.git/compare/0.4.1...master
+[0.4.1]: https://github.com/gilcu2/topdiffxml.git/compare/0.4.0...0.4.1
 [0.4.0]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.4...0.4.0
 [0.3.4]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/gilcu2/topdiffxml.git/compare/0.3.2...0.3.3
