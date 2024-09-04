@@ -1,3 +1,11 @@
+/*
+topdiffxml cmd compares 2 xml files and return the top differences.
+Top means that if the corresponding nodes of the xml files are different the differences
+between its subnodes are not showed.
+
+Usage:
+	topdiffxml <file1> <file2>
+*/
 package main
 
 import (
