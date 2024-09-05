@@ -14,4 +14,9 @@ between its subnodes are not showed.
 
 topdiffxml \<file1.xml> \<file2.xml>
 
+## Constributions
+
+- Ensure 100% coverage
+- Added to CHANGELOG Unreleased
+
 
